@@ -9,7 +9,7 @@ namespace CodeChallenge.Core.Type
     /// </summary>
     public interface ICalculate
     {
-        void CalculateChange(decimal priceItem, List<decimal> amount);
+        void CalculateChange(decimal priceItem, IEnumerable<decimal> amount);
 
         void CurrencyConfigured();
     }

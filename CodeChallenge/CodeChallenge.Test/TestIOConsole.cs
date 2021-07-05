@@ -1,4 +1,5 @@
 using CodeChallenge.Core.Helpers;
+using Moq;
 using NUnit.Framework;
 using Serilog;
 using System;

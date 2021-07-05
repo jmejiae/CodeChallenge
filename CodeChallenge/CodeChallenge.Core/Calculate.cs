@@ -33,7 +33,7 @@ namespace CodeChallenge.Core
         /// </summary>
         /// <param name="priceItem">Price Item</param>
         /// <param name="amount">List of ammounts</param>
-        public virtual void CalculateChange(decimal priceItem, List<decimal> amount)
+        public virtual void CalculateChange(decimal priceItem, IEnumerable<decimal> amount)
         {
             decimal change = amount.Sum() - priceItem;
 
@@ -42,7 +42,7 @@ namespace CodeChallenge.Core
                 _logger.Error("The price item it's not greater that or equal to the price of the item ");
             }
 
-            Console.Write($"\nReturn change: {change.ToString("$0.00")} or => ");
+            Console.Write($"\nReturn change: { change.ToString("$0.00") } or => ");
         }
     }
 }

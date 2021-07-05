@@ -23,7 +23,7 @@ namespace CodeChallenge.Core.Type
             _logger.Information("MEX bill configured\n");
         }
 
-        public override void CalculateChange(decimal priceItem, List<decimal> amount)
+        public override void CalculateChange(decimal priceItem, IEnumerable<decimal> amount)
         {
             base.CalculateChange(priceItem, amount);
 

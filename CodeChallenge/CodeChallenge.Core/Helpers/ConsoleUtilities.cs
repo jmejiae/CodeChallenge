@@ -61,17 +61,20 @@ namespace CodeChallenge.Core.Helpers
                 if (userInput == null) return 0;
 
                 decimal result;
+                decimal.TryParse(userInput, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
 
-                if (decimal.TryParse(userInput, NumberStyles.Any, CultureInfo.InvariantCulture, out result) && result >= 0)
+                if (result == 0)
                 {
-                    if (ValidateAmountPermitted(result, currency) || result == 0)
-                    {
-                        return result;
-                    }
-                    else
-                    {
-                        _logger.Error("Incorrectly recorded banknote or currency. ");
-                    }
+                    return 0;
+                }
+
+                if (ValidateAmountPermitted(result, currency))
+                {
+                    return result;
+                }
+                else
+                {
+                    _logger.Error("Incorrectly recorded banknote or currency. ");
                 }
 
                 _logger.Warning("Sorry, enter it again, please\n");

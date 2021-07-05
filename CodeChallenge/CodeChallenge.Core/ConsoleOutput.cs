@@ -12,7 +12,7 @@ namespace CodeChallenge.Core
     public class ConsoleOutput : IConsoleOutput
     {
         private ILogger _logger;
-        private IConsoleUtilities _consoleTools;
+        private IConsoleUtilities _consoleUtilities;
         private ICalculate _calculate;
         private ICurrency _currency;
 
@@ -20,12 +20,12 @@ namespace CodeChallenge.Core
         /// Constructor of the class
         /// </summary>
         /// <param name="logger">Logger using Serilog</param>
-        /// <param name="consoleTools">Utilities to read from the console app</param>
+        /// <param name="consoleUtilities">Utilities to read from the console app</param>
         /// <param name="calculate">Type of calculation</param>
-        public ConsoleOutput(ILogger logger, IConsoleUtilities consoleTools, ICalculate calculate, ICurrency currency)
+        public ConsoleOutput(ILogger logger, IConsoleUtilities consoleUtilities, ICalculate calculate, ICurrency currency)
         {
             _logger = logger;
-            _consoleTools = consoleTools;
+            _consoleUtilities = consoleUtilities;
             _calculate = calculate;
             _currency = currency;
         }
@@ -39,12 +39,12 @@ namespace CodeChallenge.Core
 
             _logger.Information("App Started...");
             _calculate.CurrencyConfigured();
-            var itemPrice = _consoleTools.ReadLine("Please, introduce the item price: ");
-            Console.WriteLine($"\nPrice captured: ${itemPrice}");
+            var itemPrice = _consoleUtilities.ReadLine("Please, introduce the item price: ");
+            Console.WriteLine($"\nPrice captured: ${ itemPrice.ToString("0.00")}");
 
             while (true)
             {
-                var customerCoint = _consoleTools.ReadLine($"Total paid: ${ coins.Sum() }\nPlease, introduce all bills and coins to pay, 0 = finish: ", _currency);
+                var customerCoint = _consoleUtilities.ReadLine($"Total paid: ${ coins.Sum().ToString("0.00") }\nPlease, introduce all bills and coins to pay, 0 = finish: ", _currency);
 
                 if (customerCoint == 0)
                 {

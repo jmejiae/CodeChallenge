@@ -23,7 +23,7 @@ namespace CodeChallenge.Core.Type
             _logger.Information("USA bill configured\n");
         }
 
-        public override void CalculateChange(decimal priceItem, List<decimal> amount)
+        public override void CalculateChange(decimal priceItem, IEnumerable<decimal> amount)
         {
             base.CalculateChange(priceItem, amount);
             
@@ -31,7 +31,8 @@ namespace CodeChallenge.Core.Type
 
             if (change == decimal.Zero)
             {
-                Console.Write($"$0 ");
+                Console.Write("$0.00 ");
+                return;
             }
 
             foreach (var currency in _currency.CurrencyList.OrderByDescending(d => d))

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CodeChallenge.Core.Currency;
+using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,79 +9,42 @@ namespace CodeChallenge.Core.Type
 {
     public class CalculateUSA : Calculate, ICalculate
     {
-        public override void CalculateChange(decimal priceItem, List<decimal> amount)
+        private readonly ILogger _logger;
+        private readonly ICurrency _currency;
+
+        public CalculateUSA(ILogger logger, ICurrency currency) : base(logger)
         {
-            base.CalculateChange(priceItem, amount);
-
-            decimal change = amount.Sum() - priceItem;
-
-            while (change >= 100)
-            {
-                Console.Write("$100 ");
-                change -= 100;
-            }
-            while (change >= 50)
-            {
-                Console.Write("$50 ");
-                change -= 50;
-            }
-            while (change >= 20)
-            {
-                Console.Write("$20 ");
-                change -= 20;
-            }
-            while (change >= 10)
-            {
-                Console.Write("$10 ");
-                change -= 10;
-            }
-            while (change >= 5)
-            {
-                Console.Write("$5 ");
-                change -= 5;
-            }
-            while (change >= 2)
-            {
-                Console.Write("$2 ");
-                change -= 2;
-            }
-            while (change >= 1)
-            {
-                Console.Write("$1 ");
-                change -= 1;
-            }
-            while (change >= 0.5m)
-            {
-                Console.Write("$0.50 ");
-                change -= 0.5m;
-            }
-            while (change >= 0.25m)
-            {
-                Console.Write("$0.25 ");
-                change -= 0.25m;
-            }
-            while (change >= 0.10m)
-            {
-                Console.Write("$0.10 ");
-                change -= 0.10m;
-            }
-            while (change >= 0.05m)
-            {
-                Console.Write("$0.05 ");
-                change -= 0.05m;
-            }
-            while (change >= 0.01m)
-            {
-                Console.Write("$0.01 ");
-                change -= 0.01m;
-            }
-
-            Console.WriteLine();
+            _logger = logger;
+            _currency = currency;
         }
 
         public override void CurrencyConfigured()
         {
-            Console.WriteLine("USA bill configured");
+            _logger.Information("USA bill configured\n");
+        }
+
+        public override void CalculateChange(decimal priceItem, List<decimal> amount)
+        {
+            base.CalculateChange(priceItem, amount);
+            
+            decimal change = amount.Sum() - priceItem;
+
+            if (change == decimal.Zero)
+            {
+                Console.Write($"$0 ");
+            }
+
+            foreach (var currency in _currency.CurrencyList.OrderByDescending(d => d))
+            {
+                while(change >= currency)
+                {
+                    Console.Write($"${currency} ");
+                    change -= currency;
+                }
+            }
+
+            Console.WriteLine(Environment.NewLine);
+            _logger.Information("App finished...");
         }
     }
 }

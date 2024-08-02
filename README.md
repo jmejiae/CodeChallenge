@@ -1,2 +1,3 @@
-# CodeChallenge
-Code challenge
+# Code Challenge
+
+Fictional software consultant for "CASH Masters

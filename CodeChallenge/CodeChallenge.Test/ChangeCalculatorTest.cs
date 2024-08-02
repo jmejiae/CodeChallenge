@@ -34,6 +34,4 @@ public class ChangeCalculatorTests
 
         Assert.Equal("The payment is insufficient.", exception.Message);
     }
-
-    // Add more tests for different scenarios
 }

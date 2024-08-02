@@ -26,11 +26,6 @@ public class ChangeCalculator
         _denominations = _denominations.OrderByDescending(d => d).ToList();
     }
 
-    public static void SetCurrencyDenominations(List<decimal> denominations)
-    {
-        _denominations = denominations.OrderByDescending(d => d).ToList();
-    }
-
     public Dictionary<decimal, int> CalculateChange(decimal price, List<decimal> payment)
     {
         decimal totalPayment = payment.Sum();
